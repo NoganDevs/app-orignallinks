@@ -44,20 +44,29 @@ async def send_code(data: EmailRequest):
     if email in RATE_LIMIT and now - RATE_LIMIT[email] < RESEND_INTERVAL:
         raise HTTPException(status_code=429, detail="Wait before requesting again")
 
-    # Generate + Store
-    # Clean expired or used code
     existing = codes.get(email)
     if existing and now < existing["expires"]:
-        return {"success": False, "message": "A code is already active. Please wait or check your inbox."}
+        # ✅ Don't send again, just notify to use current code
+        return {
+            "success": False,
+            "message": "Code already sent",
+            "already_sent": True,
+            "expires_in": int(existing["expires"] - now)
+        }
 
+    # 🔄 New Code Generation
     code = str(random.randint(100000, 999999))
     codes[email] = {
         "code": code,
         "expires": now + CODE_TTL,
         "tries": 0
-}
+    }
 
     RATE_LIMIT[email] = now
+
+    # 🔐 Email sending...
+    # (unchanged HTML template & SMTP logic)
+
 
     # Email Template (HTML)
     html = f"""

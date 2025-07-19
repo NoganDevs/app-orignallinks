@@ -36,7 +36,7 @@ class VerifyRequest(BaseModel):
     code: str
 
 @app.post("/send-code")
-async def send_code(data: EmailRequest):
+async def send_code(data: EmailRequest, request: Request):
     email = data.email
     now = time.time()
 
@@ -44,17 +44,21 @@ async def send_code(data: EmailRequest):
     if email in RATE_LIMIT and now - RATE_LIMIT[email] < RESEND_INTERVAL:
         raise HTTPException(status_code=429, detail="Wait before requesting again")
 
-    existing = codes.get(email)
-    if existing and now < existing["expires"]:
-        # ✅ Don't send again, just notify to use current code
-        return {
-            "success": False,
-            "message": "Code already sent",
-            "already_sent": True,
-            "expires_in": int(existing["expires"] - now)
-        }
+    # 👉 Check if it's a forced resend
+    is_resend = request.query_params.get("resend") == "true"
 
-    # 🔄 New Code Generation
+    # 🧠 Only block if it's not a resend
+    if not is_resend:
+        existing = codes.get(email)
+        if existing and now < existing["expires"]:
+            return {
+                "success": False,
+                "message": "Code already sent",
+                "already_sent": True,
+                "expires_in": int(existing["expires"] - now)
+            }
+
+    # Force fresh code (normal send or manual resend)
     code = str(random.randint(100000, 999999))
     codes[email] = {
         "code": code,
@@ -63,6 +67,9 @@ async def send_code(data: EmailRequest):
     }
 
     RATE_LIMIT[email] = now
+
+    # ... send email as before ...
+
 
     # 🔐 Email sending...
     # (unchanged HTML template & SMTP logic)

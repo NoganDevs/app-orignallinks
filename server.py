@@ -78,23 +78,55 @@ async def send_code(data: EmailRequest, request: Request):
     # Email Template (HTML)
     html = f"""
     <html>
-    <body style="font-family: Arial, sans-serif; background: #f2f2f2; padding: 30px;">
-        <div style="max-width: 480px; margin: auto; background: white; border-radius: 8px; padding: 30px; box-shadow: 0 0 12px rgba(0,0,0,0.05);">
-            <h2 style="color:#333;">🔐 Verify Your Email</h2>
-            <p>Use the code below to verify your identity:</p>
-            <div style="font-size: 32px; font-weight: bold; color: #4CAF50; margin: 20px 0;">{code}</div>
-            <p>This code will expire in 5 minutes.</p>
-            <p style="color:#888;font-size:13px;">If you didn't request this, please ignore it.</p>
-            <hr>
-            <p style="font-size:12px;color:#aaa;text-align:center;">OriginalLinks Security Team</p>
+  <body style="margin:0; padding:0; background:#edf0f5; font-family:'Helvetica Neue',Arial,sans-serif;">
+    <div style="max-width:540px; margin:40px auto; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.08);">
+      
+      <!-- Header -->
+      <div style="background:#0aefff; padding:20px 30px; text-align:center;">
+        <h1 style="margin:0; font-size:22px; font-weight:700; color:#ffffff;">OriginalLinks Verification</h1>
+      </div>
+      
+      <!-- Body -->
+      <div style="padding:30px 30px 20px;">
+        <h2 style="color:#1c1c1c; font-size:20px; margin-top:0;">🔐 Verify Your Email</h2>
+        <p style="color:#555; font-size:15px; margin:10px 0 24px;">
+          To continue, please enter the following verification code. This helps us keep your account secure.
+        </p>
+
+        <div style="
+          font-size:40px;
+          font-weight:800;
+          color:#0aefff;
+          background:#f2fafe;
+          text-align:center;
+          padding:18px 0;
+          border-radius:8px;
+          letter-spacing:4px;
+          user-select:all;
+        ">
+          {code}
         </div>
-    </body>
-    </html>
+
+        <p style="font-size:14px; color:#666; margin:24px 0 10px;">
+          This code will expire in <strong>5 minutes</strong>. If you did not request this code, no further action is needed.
+        </p>
+      </div>
+      
+      <!-- Footer -->
+      <div style="padding:20px 30px; background:#fafafa; text-align:center; border-top:1px solid #eee;">
+        <p style="margin:0; font-size:12px; color:#999;">Need help? Contact our support team at support@originallinks.com</p>
+        <p style="margin:6px 0 0; font-size:11px; color:#bbb;">© 2025 OriginalLinks Security Team</p>
+      </div>
+
+    </div>
+  </body>
+</html>
+
     """
 
     try:
         msg = MIMEText(html, "html")
-        msg["Subject"] = "🔐 Email Verification Code"
+        msg["Subject"] = "Please Confirm Your Email Address to Continue and Unlock a Personalized Experience"
         msg["From"] = EMAIL_ADDRESS
         msg["To"] = email
 

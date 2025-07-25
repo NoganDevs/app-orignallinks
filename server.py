@@ -78,49 +78,59 @@ async def send_code(data: EmailRequest, request: Request):
     # Email Template (HTML)
     html = f"""
     <html>
-  <body style="margin:0; padding:0; background:#edf0f5; font-family:'Helvetica Neue',Arial,sans-serif;">
-    <div style="max-width:540px; margin:40px auto; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.08);">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  </head>
+  <body style="margin:0; padding:0; background:#f0f2f7; font-family:'Inter', 'DM Sans', sans-serif;">
+    <div style="max-width:600px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.08);">
       
       <!-- Header -->
-      <div style="background:#0aefff; padding:20px 30px; text-align:center;">
-        <h1 style="margin:0; font-size:22px; font-weight:700; color:#ffffff;">OriginalLinks Verification</h1>
+      <div style="background:linear-gradient(90deg, #00e3ff, #007eff); padding:24px 32px; text-align:center;">
+        <h1 style="margin:0; font-size:24px; font-weight:700; color:#ffffff; letter-spacing:-0.5px;">
+          Confirm Your Email to Unlock Personalization
+        </h1>
       </div>
-      
+
       <!-- Body -->
-      <div style="padding:30px 30px 20px;">
-        <h2 style="color:#1c1c1c; font-size:20px; margin-top:0;">🔐 Verify Your Email</h2>
-        <p style="color:#555; font-size:15px; margin:10px 0 24px;">
-          To continue, please enter the following verification code. This helps us keep your account secure.
+      <div style="padding:36px 32px 24px;">
+        <h2 style="color:#1a1a1a; font-size:20px; font-weight:600; margin:0 0 12px;">Your Verification Code</h2>
+        <p style="color:#555d66; font-size:15px; line-height:1.6; margin:0 0 28px;">
+          To continue, please enter the code below. This helps us verify your identity and enhance your personalized experience.
         </p>
 
         <div style="
-          font-size:40px;
+          font-size:36px;
           font-weight:800;
-          color:#0aefff;
-          background:#f2fafe;
+          color:#007eff;
+          background:#eef7ff;
           text-align:center;
-          padding:18px 0;
-          border-radius:8px;
-          letter-spacing:4px;
+          padding:20px;
+          border-radius:10px;
+          letter-spacing:6px;
           user-select:all;
+          word-break:break-all;
         ">
           {code}
         </div>
 
-        <p style="font-size:14px; color:#666; margin:24px 0 10px;">
-          This code will expire in <strong>5 minutes</strong>. If you did not request this code, no further action is needed.
+        <p style="font-size:14px; color:#7b7b7b; margin:28px 0 12px;">
+          This code will expire in <strong>5 minutes</strong>. If you didn’t request it, just ignore this message.
         </p>
       </div>
-      
+
       <!-- Footer -->
-      <div style="padding:20px 30px; background:#fafafa; text-align:center; border-top:1px solid #eee;">
-        <p style="margin:0; font-size:12px; color:#999;">Need help? Contact our support team at support@originallinks.com</p>
-        <p style="margin:6px 0 0; font-size:11px; color:#bbb;">© 2025 OriginalLinks Security Team</p>
+      <div style="padding:24px 32px; background:#f9f9f9; text-align:center; border-top:1px solid #e4e4e4;">
+        <p style="margin:0; font-size:13px; color:#888;">Need help? Reach out at <a href="mailto:Orignallinks@gmail.com" style="color:#007eff; text-decoration:none;">support@originallinks.com</a></p>
+        <p style="margin:6px 0 0; font-size:12px; color:#aaa;">© 2025 OriginalLinks — All rights reserved.</p>
       </div>
 
     </div>
   </body>
 </html>
+
 
     """
 
